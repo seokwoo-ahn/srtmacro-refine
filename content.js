@@ -56,6 +56,13 @@ function macrostop() {
 	location.reload();
 }
 
+// window.alert 오버라이드
+window.alert = function(message) {
+    console.log("Alert detected: " + message);
+    // 실제 alert 창을 띄우지 않고 자동으로 확인을 누른 것처럼 처리
+	return true;
+};
+
 if (document.URL.substring(0, dsturl1.length) == dsturl1) {
 
 	$(document).ready(function() {
@@ -148,7 +155,6 @@ if (document.URL.substring(0, dsturl1.length) == dsturl1) {
 							for (j = 0; j < coachSpecials.length; j++) {
 								name = $(coachSpecials[j]).attr('class');
 								if (name == 'btn_small btn_burgundy_dark val_m wx90') {
-									chrome.extension.sendMessage({type: 'playSound'}, function(data) { });
 									$(coachSpecials[0])[0].click();
 									succeed = true;
 									break;
@@ -164,7 +170,6 @@ if (document.URL.substring(0, dsturl1.length) == dsturl1) {
 							for (j = 0; j < firstSpecials.length; j++) {
 								name = $(firstSpecials[j]).attr('class');
 								if (name == 'btn_small btn_burgundy_dark val_m wx90') {
-									chrome.extension.sendMessage({type: 'playSound'}, function(data) { });
 									$(firstSpecials[0])[0].click();
 									succeed = true;
 									break;
@@ -180,7 +185,6 @@ if (document.URL.substring(0, dsturl1.length) == dsturl1) {
 							for (j = 0; j < waitingSpecials.length; j++) {
 								name = $(waitingSpecials[j]).attr('class');
 								if (name == 'btn_small btn_burgundy_dark val_m wx90') {
-									chrome.extension.sendMessage({type: 'playSound'}, function(data) { });
 									$(waitingSpecials[0])[0].click();
 									succeed = true;
 									break;
