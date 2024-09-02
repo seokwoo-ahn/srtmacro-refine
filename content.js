@@ -5,6 +5,8 @@ window.showModalDialog = window.showModalDialog || function(url, arg, opt) {
 };
 
 function macrostart() {
+	chrome.extension.sendMessage({type: 'startMacro'}, function(data) { });
+
 	coachSelected = [].map.call(document.querySelectorAll('.coachMacro:checked'), function (select) {
 		return select.value;
 	});
