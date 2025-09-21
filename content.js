@@ -5,6 +5,8 @@ window.showModalDialog = window.showModalDialog || function(url, arg, opt) {
 };
 
 function macrostart() {
+	chrome.extension.sendMessage({type: 'startMacro'}, function(data) { });
+
 	coachSelected = [].map.call(document.querySelectorAll('.coachMacro:checked'), function (select) {
 		return select.value;
 	});
@@ -55,6 +57,13 @@ function macrostop() {
 
 	location.reload();
 }
+
+// window.alert 오버라이드
+window.alert = function(message) {
+    console.log("Alert detected: " + message);
+    // 실제 alert 창을 띄우지 않고 자동으로 확인을 누른 것처럼 처리
+	return true;
+};
 
 if (document.URL.substring(0, dsturl1.length) == dsturl1) {
 
@@ -148,6 +157,7 @@ if (document.URL.substring(0, dsturl1.length) == dsturl1) {
 							for (j = 0; j < coachSpecials.length; j++) {
 								name = $(coachSpecials[j]).attr('class');
 								if (name == 'btn_small btn_burgundy_dark val_m wx90') {
+									chrome.extension.sendMessage({type: 'ticketed'}, function(data) { });
 									$(coachSpecials[0])[0].click();
 									succeed = true;
 									break;
@@ -163,6 +173,7 @@ if (document.URL.substring(0, dsturl1.length) == dsturl1) {
 							for (j = 0; j < firstSpecials.length; j++) {
 								name = $(firstSpecials[j]).attr('class');
 								if (name == 'btn_small btn_burgundy_dark val_m wx90') {
+									chrome.extension.sendMessage({type: 'ticketed'}, function(data) { });
 									$(firstSpecials[0])[0].click();
 									succeed = true;
 									break;
@@ -178,6 +189,7 @@ if (document.URL.substring(0, dsturl1.length) == dsturl1) {
 							for (j = 0; j < waitingSpecials.length; j++) {
 								name = $(waitingSpecials[j]).attr('class');
 								if (name == 'btn_small btn_burgundy_dark val_m wx90') {
+									chrome.extension.sendMessage({type: 'ticketed'}, function(data) { });
 									$(waitingSpecials[0])[0].click();
 									succeed = true;
 									break;
@@ -209,7 +221,19 @@ if (document.URL.substring(0, dsturl1.length) == dsturl1) {
 					}, 1000);
 				}
 			} else {
-				history.go(-1);
+				// 폼 요소 선택
+				var form = document.getElementById('search-form');
+
+				// 폼이 존재하는지 확인
+				if (form) {
+					// 폼의 제출 버튼 선택
+					var submitButton = form.querySelector('input[type="submit"]');
+					
+					// 제출 버튼 클릭
+					if (submitButton) {
+						submitButton.click();
+					}
+				}
 			}
 		}
 	});
