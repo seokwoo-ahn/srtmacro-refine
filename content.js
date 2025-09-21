@@ -5,7 +5,7 @@ window.showModalDialog = window.showModalDialog || function(url, arg, opt) {
 };
 
 function macrostart() {
-	chrome.extension.sendMessage({type: 'startMacro'}, function(data) { });
+	chrome.runtime.sendMessage({type: 'startMacro'}, function(data) { });
 
 	coachSelected = [].map.call(document.querySelectorAll('.coachMacro:checked'), function (select) {
 		return select.value;
@@ -157,7 +157,7 @@ if (document.URL.substring(0, dsturl1.length) == dsturl1) {
 							for (j = 0; j < coachSpecials.length; j++) {
 								name = $(coachSpecials[j]).attr('class');
 								if (name == 'btn_small btn_burgundy_dark val_m wx90') {
-									chrome.extension.sendMessage({type: 'ticketed'}, function(data) { });
+									chrome.runtime.sendMessage({type: 'ticketed'}, function(data) { });
 									$(coachSpecials[0])[0].click();
 									succeed = true;
 									break;
@@ -173,13 +173,13 @@ if (document.URL.substring(0, dsturl1.length) == dsturl1) {
 							for (j = 0; j < firstSpecials.length; j++) {
 								name = $(firstSpecials[j]).attr('class');
 								if (name == 'btn_small btn_burgundy_dark val_m wx90') {
-									chrome.extension.sendMessage({type: 'ticketed'}, function(data) { });
+									chrome.runtime.sendMessage({type: 'ticketed'}, function(data) { });
 									$(firstSpecials[0])[0].click();
 									succeed = true;
 									break;
 								}
 							}
-							if (succeed == true) break;
+							if (succeed) break;
 						}
 					}
 
@@ -189,18 +189,18 @@ if (document.URL.substring(0, dsturl1.length) == dsturl1) {
 							for (j = 0; j < waitingSpecials.length; j++) {
 								name = $(waitingSpecials[j]).attr('class');
 								if (name == 'btn_small btn_burgundy_dark val_m wx90') {
-									chrome.extension.sendMessage({type: 'ticketed'}, function(data) { });
+									chrome.runtime.sendMessage({type: 'ticketed'}, function(data) { });
 									$(waitingSpecials[0])[0].click();
 									succeed = true;
 									break;
 								}
 							}
-							if (succeed == true) break;
+							if (succeed) break;
 						}
 					}
 				}
 
-				if (succeed == true) {
+				if (succeed) {
 					sessionStorage.removeItem('macro');
 					sessionStorage.removeItem('coachSelected');
 					sessionStorage.removeItem('firstSelected');
@@ -212,13 +212,11 @@ if (document.URL.substring(0, dsturl1.length) == dsturl1) {
 					sessionStorage.removeItem('psgInfoPerPrnb3');
 					sessionStorage.removeItem('locSeatAttCd1');
 					sessionStorage.removeItem('rqSeatAttCd1');
-					chrome.extension.sendMessage({type: 'playSound'}, function(data) { });
-					//특실 전용 코로나 안내 메세지 제거
-					document.querySelector('.ui-dialog-buttonset').querySelector('.ui-button').click();
+					chrome.runtime.sendMessage({type: 'playSound'}, function(data) { });
 				} else {
-					setTimeout(function() {
-					location.reload();
-					}, 1000);
+					setTimeout(function() { 
+						location.reload();
+					}, 3000);
 				}
 			} else {
 				// 폼 요소 선택
